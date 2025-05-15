@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough" >
+
+  <h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Estação Meteorológica</title>
+
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+
+    <!--Css-->
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <h:outputStylesheet library="css" name="chuva.css"/>
+    <h:outputStylesheet library="css" name="darkstyle.css"/>
+    <h:outputStylesheet library="css" name="historico.css"/>
+
+    <!--Resources-->
+    <h:outputScript>
+      const imagemSol = "${resource['assets/sun.svg']}";  
+      const imagemChuva = "${resource['assets/rain.svg']}"; 
+    </h:outputScript>
+  </h:head>
+  <h:body a:data-theme='light'>
+    <header>
+      <h:form id="frmTema">
+        <h:commandLink id="backgroundChange">
+          <h:graphicImage library="assets" name="lamp-svgrepo-com.svg" alt="lampada"/>
+          <f:ajax execute="@form" />
+        </h:commandLink>
+      </h:form>
+    </header>
+    <main class="container">
+      <div class="graficos">
+        <div id="graficoTemp">
+          <p:lineChart model="#{bgrGrafico.graficoTemperatura}" widgetVar="gtemp" style="width: 100%; height: 250px"/>
+        </div>
+        <div id="graficoHumidade">
+          <p:lineChart model="#{bgrGrafico.graficoUmidade}" widgetVar="ghumi" style="width: 100%; height: 250px"/>
+        </div>
+      </div>
+      <div class="temps">
+        <div class="tempAtual">
+          <div>
+            <p>Temperatura</p>
+
+            <h:graphicImage library="assets" name="temperatura.svg" alt="termometro"/>
+          </div>
+
+          <h1>
+            <span id="temperatura"></span> °C
+          </h1>
+
+          <div>
+            <p class="chuva">Umidade</p>
+
+            <p class="chuva"><span id="umidade"></span> %</p>
+          </div>
+        </div>
+        <div class="tempGoogle">
+          <div class="local">
+            <p>Clima</p>
+
+            <h:graphicImage styleClass="climaImg" library="assets" name="sun.svg" alt="sol"/>
+          </div>
+
+          <h1 class="clima">
+          </h1>
+          <div>
+            <!--<p> Sensor </p>-->
+            <!--<p id="precipitacao"></p>-->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="container-chuva"></div>
+
+    <h:form style="z-index: 1"> 
+      <h:commandLink styleClass="estilo-link" value="Ver o histórico das medidas" action="#{bgrGrafico.historicoMedidas()}"/>
+    </h:form>
+
+    <h:outputScript library="js" name="main.js" />
+    <h:outputScript library="js" name="chuva.js" />
+  </h:body>
+</html>
